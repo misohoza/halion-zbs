@@ -1,6 +1,6 @@
 # ZBS Halion 6.2.20
 
-Custom API definition and plugins for ZeroBrane Studio.
+Custom API definition and plugins for [ZeroBrane Studio.](https://studio.zerobrane.com)
 
 
 Provides auto-complete and tooltips for Halion scripting language.
