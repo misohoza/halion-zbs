@@ -313,10 +313,34 @@ return {
         args = "(filename: string)",
         returns = "(AudioFile: object)",
         childs = {
+          analyzePitch = {
+            type = "method",
+            description = "Function to analyze the pitch of an audio file. You specify the audio file with the AudioFile object that is returned by the AudioFile.open function. The arguments callback and channel are optional. If called without a callback function, analyzePitch will be executed in the same thread. If called with a callback function as argument, analyzePitch will be executed in a separate, parallel thread. You can specify the channel to be analyzed with the channel argument. Without the channel argument multiple channels of an audio file will be summed before the pitch is analyzed. The callback function is called with the AudioFile object as the first and the channel as the second argument after the pitch has been analyzed. The results of analyzePitch are cashed as long as the corresponding AudioFile object exists. The function itself does not return any pitch information. You must use getPitch to obtain the analyzed pitch.",
+            args = "([callback: function [, channel: number]])",
+            returns = "()",
+          },
+          cancelPitchAnalysis = {
+            type = "method",
+            description = "Function to cancel a pitch analysis you started with analyzePitch. You specify the audio file with the AudioFile object that is returned by the AudioFile.open function. The channel argument specifies the channel of the audio file. The AudioFile object and the channel argument must match the call to analyzePitch.",
+            args = "([channel: number])",
+            returns = "()",
+          },
           getPeak = {
             type = "method",
             description = "Function to analyze the levels in an audio file. You specify the audio file with the AudioFile object that is returned by the AudioFile.open function. The arguments start and length define the range in the audio file to be analyzed. The rms argument determines whether the peak level or the RMS level of the specified range is returned. Returns the level of the specifed range as a linear value.",
             args = "(start: number, length: number, rms: number)",
+            returns = "(number)",
+          },
+          getPitch = {
+            type = "method",
+            description = "Function to obtain the pitch of an audio file that has been analyzed with analyzePitch. The audio file you want to obtain the pitch from is specified with the AudioFile object that is returned by the AudioFile.open function. The arguments start and length define the range in the audio file that is used for obtaining the pitch. The channel argument specifies the channel of the audio file that was analyzed. The AudioFile object and the channel argument must match the call to analyzePitch. The function returns two values: The pitch as MIDI note number with decimals for cents and a boolean for voiced/unvoiced detection. If length is greater than 20 ms, the average of the pitches in the specified range is returned. If the audio file has not been analyzed in advance, getPitch returns nil.\n\nReturns a tuple with two values: \n* A float value representing the pitch as MIDI note number with decimals for cents,\n* a boolean for voiced/unvoiced detection. The return value true means that a pitch was detected in the specified range.\n\nIf length is greater than 20 ms, the average of the pitches in the specified range is returned. If the audio file has not been analyzed in advance, getPitch returns nil.",
+            args = "(start: number, length: number [, channel: number])",
+            returns = "(tuple: number and boolean)",
+          },
+          getPitchAnalysisProgress = {
+            type = "method",
+            description = "Function to monitor the progress of analyzePitch. You specify the audio file with the AudioFile object that is returned by the AudioFile.open function. The channel argument specifies the channel of the audio file. The AudioFile object and the channel argument must match the call to analyzePitch. The function returns the progress as a float value between 0 and 1.",
+            args = "([channel: number])",
             returns = "(number)",
           },
           valid = {
@@ -773,13 +797,7 @@ return {
     description = "Function to read the current value of a parameter in the normalized range from 0 to 1.0. The parameter can be determined by name or ID.Returns the current value of the parameter in the normalized range from 0 to 1.0 or nil if the parameter doesn't exist. If the parameter is not numeric, the function returns the same as getParameter",
     args = "(nameOrID: string|number)",
     returns = "(number|nil)",
-  },
-  getPeak = {
-    type = "function",
-    description = "Function to analyze the levels in an audio file. You specify the audio file with the AudioFile object that is returned by the AudioFile.open function. The arguments start and length define the range in the audio file to be analyzed. The rms argument determines whether the peak level or the RMS level of the specified range is returned. Returns the level of the specifed range as a linear value.",
-    args = "(start: number, length: number, rms: number)",
-    returns = "(number)",
-  },
+  },  
   getProductName = {
     type = "function",
     description = "Function to retrieve the name of the plug-in.",
