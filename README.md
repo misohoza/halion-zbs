@@ -1,4 +1,4 @@
-# ZBS Halion 6.2.20
+# ZBS Halion 6.4
 
 Custom API definition and plugins for [ZeroBrane Studio.](https://studio.zerobrane.com)
 
