@@ -994,7 +994,7 @@ return {
     type = "class",
     childs = {
       progress = {type = "value", description = "The load progress in the range from 0 to 1."},
-      root = {type = "value", description = "The value of .root will be the Element object of the first element (root) of the loaded VST preset. Depending on whether you load a layer, program, or multi-program VST preset, this is either an Element object of the type Layer, Program,or Instance."},
+      root = {type = "value", valuetype = "_p", description = "The value of .root will be the Element object of the first element (root) of the loaded VST preset. Depending on whether you load a layer, program, or multi-program VST preset, this is either an Element object of the type Layer, Program,or Instance."},
       cancel = {type = "value", description = "Set this to true to cancel the loading of the preset."},
       error = {type = "value", description = "Message if an error occured."},
       info = {type = "value", description = "User definable field, for example, to manage several loading threads."},
