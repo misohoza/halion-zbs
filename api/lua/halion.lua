@@ -1373,12 +1373,15 @@ return {
     description = "Function to detect whether the host is in playback. Returns true if the host is in playback and false if not.",
     args = "()",
     returns = "(boolean)",
-  },  
+  },
+  -- pseudo class for autocomplete
+  _p = {type = "class", childs = {}, inherits = "Layer Program Instance"},
   loadPreset = {
     type = "function",
     description = "Function to load the elements of a VST preset. Depending on whether you load a layer, program or multi-program VST preset, the function returns either an Element object of the type Layer, Program or Instance. You can use the returned Element object to insert layers, zones, MIDI modules, busses, effects, etc. from the VST preset into the program or HALion instance where the script is executed.",
     args = "(path: string)",
     returns = "(element object)",
+    valuetype = "_p",
   },
   loadPresetAsync = {
     type = "function",
