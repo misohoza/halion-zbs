@@ -28,7 +28,7 @@ return {
     if ref and func[ref] then
       menu:Append(id, ("Show Reference: %s"):format(ref))
       menu:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED,
-        function() wx.wxLaunchDefaultBrowser('https://developer.steinberg.help/display/HSD/'..func[ref], 0) end)
+        function() wx.wxLaunchDefaultBrowser('https://steinbergmedia.github.io/halion-script-api/HALion-Script/pages/'..func[ref], 0) end)
     end
   end
 }

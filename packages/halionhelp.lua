@@ -1,5 +1,5 @@
 local id = ID("halionhelpmenu.halionhelpmenu")
-local url = "https://developer.steinberg.help/display/HSD/HALion+Script+Home"
+local url = "https://steinbergmedia.github.io/halion-script-api/HALion-Script/pages/HALion-Script.html"
 return {
   name = "Halion Help",
   description = "Adds Halion help option to the menu.",
