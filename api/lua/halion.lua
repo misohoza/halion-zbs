@@ -10,6 +10,19 @@ return {
       bypassAux = { type = "value", description = "Index 4" },
     },
   },
+
+  DecomposeOutputMode = {
+    type = "value",
+    description = "Enumerator to identify the different decompose output modes.",
+    childs = {
+      tonal = { type = "value", description = "Index 1" },
+      noise = { type = "value", description = "Index 2" },
+      all = { type = "value", description = "Index 3" },
+      mix = { type = "value", description = "Index 4" },
+    }
+
+  },
+
   EventType = {
     type = "value",
     description = "Event Types",
@@ -1381,6 +1394,20 @@ The default format is 0.]],
     args = "()",
     returns = "(string)",
   },
+  getDecomposeOutputPath = {
+    type = "function",
+    description =
+    "This function evaluates the decompose settings of the plug-in and the file path of the original sample and returns the file path to the folder in which the decomposed samples are to be be saved. You can use this function to alter the outputPath argument of the decompose function, e.g., to write the decomposed samples in a subfolder. The complete record of the decompose settings of the plug-in can be obtained with getDecomposeSettings.",
+    args = "(filePath: string)",
+    returns = "(path: string)",
+  },
+  getDecomposeSettings = {
+    type = "function",
+    description =
+    "Function to obtain the decompose settings of the plug-in. Custom samples originate from disk and library samples originate from VST Sound containers. Depending on the decompose settings specified by the user and on the origin of the samples, decomposed samples are written to different file paths. By evaluating the returned settings, your script can respond to the settings specified by the user.",
+    args = "()",
+    returns = "(Returns a table with the decompose settings.)",
+  },
   getElement = {
     type = "function",
     description =
@@ -1547,6 +1574,13 @@ The default format is 0.]],
     args = "([product: string])",
     returns = "(file path: string)",
   },
+  getUserSubPresetPath = {
+    type = "function",
+    description =
+    "Function to obtain the file path for the user sub presets of a product. If no product is set, the function returns the file path of the current plug-in.",
+    args = "([product: string])",
+    returns = "(file path: string)",
+  },
   getVoices = {
     type = "function",
     description =
@@ -1649,6 +1683,12 @@ The default format is 0.]],
     args = "(event: object)",
     returns = "()",
   },
+  onData = {
+    type = "function",
+    description = "This callback is called when the script module receives a system exclusive message.",
+    args = "(event: object)",
+    returns = "()",
+  },
   onDropGetInfo = {
     type = "function",
     description =
@@ -1735,6 +1775,12 @@ The default format is 0.]],
     type = "function",
     description = "This callback function is called when the program is removed from the Slot Rack.",
     args = "()",
+    returns = "()",
+  },
+  onRetrigger = {
+    type = "function",
+    description = "This callback function is called when the script module receives a note-retrigger event.",
+    args = "(event: object)",
     returns = "()",
   },
   onSave = {
@@ -1881,11 +1927,24 @@ The default format is 0.]],
     args = "(samples: number)",
     returns = "(number)",
   },
+  savePreset = {
+    type = "function",
+    description = "Function to save a layer as VST preset to disk.",
+    args = "(filename: string, layer: Layer [, plugin: string [, attr: string|table]])",
+    returns = "(bool)",
+  },
   setScriptExecTimeOut = {
     type = "function",
     description =
     "Function to specify the maximum allowed execution time of a function call in the script. If the execution of a function call exceeds the execution time-out, the script will end with an execution error. This prevents the infinite execution of scripts, e.g., in case of an infinite loop. The script execution time-out can be defined separately for the controller and the processor thread. Which execution time-out is set, depends on where setScriptExecTimeOut is called. The duration for the script execution time-out is specified in milliseconds. The default is 5000 ms for the controller thread and 1000 ms for the processor thread.",
     args = "(duration: number)",
+    returns = "()",
+  },
+  setZoneFMXAlgo = {
+    type = "function",
+    description =
+    "Function to set the algorithm of the FM zone. The zone argument sets the target FM zone by its Zone object. You can use getZone or findZones to determine the Zone object of the target FM zone. The algo argument is the index that corresponds to the desired FM-X algorithm preset of the FM zone.",
+    args = "(zone: Zone, algo: number)",
     returns = "()",
   },
   sortEvents = {
@@ -1907,6 +1966,19 @@ The default format is 0.]],
     "Function to combine multiple undo entries into one undo block. For example, if your script inserts several elements into the program, you might want to be able to remove all the elements in one single undo operation. The function returns an ID for identifying the undo block. This ID can be used as second argument in later calls to startUndoBlock for combining the undo blocks that refer to this ID.  The name argument will be used as entry in the undo history. If multiple undo blocks are combined, only the name of the last undo block will be used. This function must be terminated using endUndoBlock. If startUndoBlock is called within a callback function, endUndoBlock is called automatically when the callback function ends.",
     args = "(name: string, id: number)",
     returns = "(id)",
+  },
+  startWriteOutputToFile = {
+    type = "function",
+    description =
+    "Function to write the ouput of print functions to a file. Only the print functions between startWriteOutputToFile and stopWriteOutputToFile are considered.",
+    args = "(filename: string, append: bool, silent: bool)",
+    returns = "()",
+  },
+  stopWriteOutputToFile = {
+    type = "function",
+    description = "Stops writing the ouput to the file.",
+    args = "()",
+    returns = "()",
   },
   wait = {
     type = "function",
